@@ -1,7 +1,8 @@
 "use strict"
-/* ---------------------- USER CONTROLLER ------------------- */
+/* ---------------- USER CONTROLLER ---------- */
 
 const User = require('../models/user')
+// require('../middlewares/findSearchSortPage')
 
 module.exports = {
     list: async (req, res) => {
@@ -11,17 +12,11 @@ module.exports = {
             details: await res.getModelListDetails(User),
             data
         })
+
     },
     create: async (req, res) => {
         const data = await User.create(req.body)
         res.status(201).send({
-            error: false,
-            data
-        })
-    },
-    read: async (req, res) => {
-        const data = await User.findOne({ _id: req.params.id })
-        res.status(200).send({
             error: false,
             data
         })
@@ -33,6 +28,14 @@ module.exports = {
             data,
             new: await User.findOne({ _id: req.params.id })
         })
+
+    },
+    read: async (req, res) => {
+        const data = await User.findOne({ _id: req.params.id })
+        res.status(200).send({
+            error: false,
+            data
+        })
     },
     delete: async (req, res) => {
         const data = await User.deleteOne({ _id: req.params.id })
@@ -40,6 +43,8 @@ module.exports = {
             error: !data.deletedCount,
             data
         })
-    }
+
+    },
 }
+
 
