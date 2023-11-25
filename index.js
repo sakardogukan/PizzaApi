@@ -1,66 +1,100 @@
 "use strict"
-/* --------------------- INDEX.JS -------------------- */
+/* ---------------- INDEX.JS ----------------- */
 //! Required Moduls:
-
 const express = require('express')
 const app = express()
 
-//? envVariables to process.env:
+// require('dotenv').config({ path: __dirname + '/config.env' })
 require('dotenv').config()
-const PORT = process.env.PORT || 8000
+const HOST = process.env?.HOST || '127.0.0.1'
+const PORT = process.env?.PORT || 8000
+// console.log(process.env.PORT);
+// console.log(process.env.ACCESS_KEY);
 
 //? asyncErrors to errorHandler:
 require('express-async-errors')
-
-app.use(express.json())
-
-/* --------------------------------------------------- */
+/* ------------------------------------------- */
 //! Configuration:
-
 //? Connect to DB:
 const { dbConnection } = require('./src/config/dbConnection')
 dbConnection()
-
-/* --------------------------------------------------- */
+/* ------------------------------------------- */
 //! Middlewares:
 
-//? Accept JSON:
+//? Accept to JSON:
 app.use(express.json())
 
-//? SearchingSortinPagination:
+//? accessToken Control:
+app.use(require('./src/middlewares/authentication'))
+
+//? Searching&Sorting&Pagination:
 app.use(require('./src/middlewares/findSearchSortPage'))
 
 //? Run Logger:
 app.use(require('./src/middlewares/logger'))
 
-/* --------------------------------------------------- */
+//! Documentation:
+// Swagger:
+var cors = require('cors')
+app.use(cors())
+const swaggerUi = require('swagger-ui-express')
+const swaggerJson = require('./swagger.json')
+app.use('/docs/swagger', swaggerUi.serve, swaggerUi.setup(swaggerJson, { swaggerOptions: { persistAuthorization: true } }))
+// JSON:
+app.use('/docs/json', (req, res) => {
+    res.sendFile('swagger.json', { root: '.' })
+})
+// Redoc:
+const redoc = require('redoc-express')
+app.use('/docs/redoc', redoc({
+    specUrl: '/docs/json',
+    title: 'API Docs',
+}))
+
+/* ------------------------------------------- */
 //! Routes:
 
-//? Home Path:
+//? Home Page:
 app.all('/', (req, res) => {
     res.send({
         error: false,
-        message: 'Welcome to Pizza API'
+        message: 'Welcome to Pizza API',
+        api: {
+            doument: {
+                json: '/docs/json',
+                swagger: '/docs/swagger',
+                redoc: '/docs/redoc'
+            },
+            contact: 'DGKN'
+        },
+        isLogin: req.isLogin,
+        user: req.user
     })
+    console.log(req.user);
 })
+
+//? Auth:
+app.use('/auth', require('./src/routes/auth'))
 
 //? User:
 app.use('/users', require('./src/routes/user'))
 
+//? Topping:
+app.use('/toppings', require('./src/routes/topping'))
 
+//? Pizza:
+app.use('/pizzas', require('./src/routes/pizza'))
 
+//? Order:
+app.use('/orders', require('./src/routes/order'))
+/* ------------------------------------------- */
 
-/* --------------------------------------------------- */
-
-
-
-/* --------------------------------------------------- */
-//? errorHandler:
+/* ------------------------------------------- */
+//? asyncErrors to errorHandler:
 app.use(require('./src/middlewares/errorHandler'))
 
-//? Port Listen:
-app.listen(PORT, () => console.log('http://127.0.0.1:' + PORT))
+//? PORT Listen:
+app.listen(PORT, HOST, () => console.log(`Running: http://${HOST}:${PORT}`))
 
-/* --------------------------------------------------- */
-//? Syncronization (must be in commentLine):
+//! Synchronization (must be in commentLine):
 // require('./src/helpers/sync')()
