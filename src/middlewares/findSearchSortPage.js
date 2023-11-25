@@ -1,5 +1,5 @@
 "use strict"
-/* ----------- FIND SEARCH SORT PAGE ---------------- */
+/* ------- SEARCHING SORTING PAGINATION ------ */
 
 module.exports = (req, res, next) => {
 
@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
 
     //? Limit:
     let limit = Number(req.query?.limit)
-    limit = limit > 0 ? limit : Number(process.env?.PAGE_SIZE || 20)
+    limit = limit > 0 ? limit : Number(process.env.PAGE_SIZE || 20)
 
     //? Page:
     let page = Number(req.query?.page)
@@ -26,7 +26,7 @@ module.exports = (req, res, next) => {
 
     //! Run. Searching Sorting Pagination engine for Model
     res.getModelList = async function (Model, filters = {}, populate = null) {
-        const filtersAndSearch = { ...filters, ...search  }
+        const filtersAndSearch = { ...filters, ...search }
         return await Model.find(filtersAndSearch).sort(sort).skip(skip).limit(limit).populate(populate)
     }
 
