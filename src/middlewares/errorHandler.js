@@ -1,5 +1,5 @@
 "use strict"
-/* ------------------ ERROR HANDLER ----------------- */
+/* ---------------- ERROR HANDLER ------------ */
 
 module.exports = (err, req, res, next) => {
     return res.status(res?.errorStatusCode || 500).send({
