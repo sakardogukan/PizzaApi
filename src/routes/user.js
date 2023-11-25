@@ -1,17 +1,19 @@
 "use strict"
-/* ---------------------- USER ROUTE ------------------- */
+/* ---------------- USER ROUTE --------------- */
 
 const router = require('express').Router()
 const user = require('../controllers/user')
+const permissions = require('../middlewares/permissions')
+
 
 router.route('/')
-    .get(user.list)
+    .get(permissions.isAdmin, user.list)
     .post(user.create)
 
 router.route('/:id')
-    .get(user.read)
-    .put(user.update)
-    .patch(user.update)
-    .delete(user.delete)
+    .get(permissions.isLogin, user.read)
+    .put(permissions.isLogin, user.update)
+    .patch(permissions.isLogin, user.update)
+    .delete(permissions.isAdmin, user.delete)
 
 module.exports = router
