@@ -5,7 +5,6 @@
 * Express.Js
 * Mongoose - MongoDB SQL
 * Authorization And Permissions with JWT (Json Web Token)
-* Object Mapping (ORM)
 * Password Crypto
 * Documentation: Swagger / Redoc / Json
 * Logging
@@ -31,8 +30,8 @@ $ echo MONGODB=mongodb://127.0.0.1:27017/pizzaApi >> .env
 $ cp ./env-sample ./.env
 $ nodemon // * Running *
 
-- The synchronization function in line xxxx of the index.js file should be run once and disabled again.
-- Testing is done with the following URL queries via Thunder Client or Postman or Browser.
+- The synchronization function in line 100 of the index.js file should be run once and disabled again.
+- Testing is done with the following URL queries via Thunder Client or Postman or Browser. If changes are made to the Swagger file, the "$ node swagger.js" command should be used in the terminal.
 ```
 
 ### Folder/File Structure:
@@ -42,29 +41,38 @@ $ nodemon // * Running *
         config/
             dbConnection.js
         controllers/
-            auth.controller.js
-            department.controller.js
-            personnel.controller.js
+            auth.js
+            order.js
+            pizza.js
+            topping.js
+            user.js
         helpers/
-            checkUserAndSetToken.js
             passwordEncrypt.js
+            setToken.js
             sync.js
         img/
-            erdPersonnelApi.png
-            mongoose.png
+            erdPizzaAPI.png
         middlewares/
-            authınticated.js
+            authentication.js
             errorHandler.js
             findSearchSortPage.js
+            logger.js
             permissions.js
         models/
-            department.model.js
-            personnel.model.js
+            order.js
+            pizza.js
+            topping.js
+            user.js
         routes/
-            auth.router.js
-            department.route.js
-            personnel.route.js
+            auth.js
+            order.js
+            pizza.js
+            topping.js
+            user.js
+    .env
     .gitignore
+    config.env
+    env-sample
     .env-sample
     index.js
     package-lock.json
@@ -80,6 +88,8 @@ $ nodemon // * Running *
 * https://nodejs.org/api/crypto.html#cryptopbkdf2syncpassword-salt-iterations-keylen-digest
 * https://www.mongodb.com/docs/manual/reference/operator/query/regex/
 * https://jwt.io/
+* https://expressjs.com/en/resources/middleware/morgan.html
+* https://swagger-autogen.github.io/docs/
 * https://expressjs.com/en/resources/middleware/morgan.html
 
 > Designed By DOGUKAN © Nov 2023
