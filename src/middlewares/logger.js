@@ -1,5 +1,5 @@
 "use strict"
-/* ----------- LOGGING ------------------------ */
+/* ------------------- LOGGING ---------------- */
 
 const morgan = require('morgan')
 const fs = require('node:fs')
