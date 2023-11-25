@@ -4,12 +4,12 @@
 const express = require('express')
 const app = express()
 
-// require('dotenv').config({ path: __dirname + '/config.env' })
-require('dotenv').config()
+require('dotenv').config({ path: __dirname + '/.env' })
+// require('dotenv').config()
 const HOST = process.env?.HOST || '127.0.0.1'
 const PORT = process.env?.PORT || 8000
-// console.log(process.env.PORT);
-// console.log(process.env.ACCESS_KEY);
+console.log(process.env.PORT);
+console.log(process.env.ACCESS_KEY);
 
 //? asyncErrors to errorHandler:
 require('express-async-errors')
@@ -94,7 +94,7 @@ app.use('/orders', require('./src/routes/order'))
 app.use(require('./src/middlewares/errorHandler'))
 
 //? PORT Listen:
-app.listen(PORT, HOST, () => console.log(`Running: http://${HOST}:${PORT}`))
+app.listen(PORT, () => console.log(`Running: http://${HOST}:${PORT}`))
 
 //! Synchronization (must be in commentLine):
 // require('./src/helpers/sync')()
