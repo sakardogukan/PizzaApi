@@ -1,23 +1,28 @@
 {
-  "name": "pizza_api",
+  "name": "pizza_api_app",
   "version": "1.0.0",
-  "description": "* Node.Js\r * Express.Js\r * Mongoose - MongoDB SQL\r * Authorization And Permissions with JWT (Json Web Token)\r * Object Mapping (ORM)\r * Password Crypto\r * Documentation: Swagger / Redoc / Json\r -----",
+  "description": "PizzaAPI is node.js project. Used Tech: Node.Js | Express.Js | Mongoose - MongoDB SQL | Authorization And Permissions with JWT (Json Web Token) | Password Crypto | Documentation: Swagger/Redoc/Json | Logging",
   "main": "index.js",
+  "title": "Pizza API",
   "scripts": {
-    "start":"nodemon",
-    "debug": "set DEBUG=* & nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon",
+    "debug": "set DEBUG=* & nodemon"
   },
   "keywords": [],
-  "author": "",
+  "author": "DGKN",
+  "email": "sakardogukan@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.3.0",
     "mongoose": "^8.0.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "redoc-express": "^2.1.0",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.0"
   }
 }
