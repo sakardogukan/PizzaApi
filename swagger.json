@@ -10,7 +10,7 @@
       "email": "sakardogukan@gmail.com"
     },
     "license": {
-      "name": "ISC"
+      "name": "BSD license"
     }
   },
   "host": "127.0.0.1:8000",
@@ -19,22 +19,37 @@
     "http",
     "https"
   ],
+  "securityDefinitions": {
+    "JWT": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "decription": "Entry your AccessToken (JWT) for Login. Example; <b>Bearer <i>...accessToken...<i></b>"
+    }
+  },
   "paths": {
     "/auth/login": {
       "post": {
-        "description": "",
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login",
+        "description": "Login with username and password",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "username": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "test1"
                 },
                 "password": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "1234"
                 }
               }
             }
@@ -49,7 +64,32 @@
     },
     "/auth/refresh": {
       "post": {
-        "description": "",
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "JWT: Refresh",
+        "description": "Refresh accessToken with  ",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "object",
+                  "properties": {
+                    "refresh": {
+                      "type": "string",
+                      "example": "...refreshToken..."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -59,7 +99,11 @@
     },
     "/auth/logout": {
       "get": {
-        "description": "",
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "JWT: Logout",
+        "description": "No need any doing for logout. You must deleted Bearer Token from your browser.",
         "responses": {
           "200": {
             "description": "OK"
@@ -69,7 +113,11 @@
     },
     "/users/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "summary": "List Users",
+        "description": "\r  You can send query with endpoint-browser for search[], sort[], page and limit\r  <ul>Examples:\r  <li> URL?<b>search[field1]=value1&search[field2]=value2</b> </li>\r  <li> URL?<b>sort[field1]=1&sort[field2]=-1</b> </li>\r  <li> URL?<b>page=2&limit=2</b> </li>\r  </ul>\r  ",
         "responses": {
           "200": {
             "description": "OK"
@@ -77,7 +125,35 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a User",
+        "description": "You can send parameters in body",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "test-X"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "1234"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "test@test.com"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -87,7 +163,11 @@
     },
     "/users/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Read a User",
+        "description": "\r  A record containing \"UserID\" is called up.\r  <ul> Examples:\r  <li> URL/<b>userId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
@@ -103,13 +183,39 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update a User",
+        "description": "\r  A record containing \"UserID\" is called up. Then, the update is made with the values ​​in the \"body\".\r  <ul> Examples:\r  <li> URL/<b>userId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "test-X"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "1234"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "test@test.com"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -119,7 +225,11 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete a User",
+        "description": "\r  <ul> Examples:\r  <li> URL/<b>userId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
@@ -138,13 +248,39 @@
         }
       },
       "patch": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update a User",
+        "description": "\r  A record containing \"UserID\" is called up. Then, the update is made with the values ​​in the \"body\".\r  <ul> Examples:\r  <li> URL/<b>userId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "test-X"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "1234"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "test@test.com"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -156,7 +292,11 @@
     },
     "/toppings/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Toppings"
+        ],
+        "summary": "List Toppings",
+        "description": "\r  You can send query with endpoint-browser for search[], sort[], page and limit\r  <ul>Examples:\r  <li>URL?<b>search[filed1]=value1&search[field2]=value2</b></li>\r  <li> URL?<b>sort[field1]=1&sort[field2]=-1</b></li>\r  <li> URL?<b>page=2&limit=1</b></li>\r  </ul>\r  ",
         "responses": {
           "200": {
             "description": "OK"
@@ -164,7 +304,27 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Toppings"
+        ],
+        "summary": "Create a Topping",
+        "description": "You can send parameters in body",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "sossis"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -174,7 +334,11 @@
     },
     "/toppings/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Toppings"
+        ],
+        "summary": "Read a Topping",
+        "description": "\r  A record containing \"toppingD\" is called up.\r  <ul> Examples:\r  <li> URL/<b>toppingId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
@@ -190,13 +354,31 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "Toppings"
+        ],
+        "summary": "Update a Topping",
+        "description": "\r  <ul> Examples:\r   <li> URL/<b>toppingId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "sossis"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -206,7 +388,11 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Toppings"
+        ],
+        "summary": "Delete a Topping",
+        "description": "\r  <ul> Examples:\r  <li> URL/<b>toppingId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
@@ -225,13 +411,31 @@
         }
       },
       "patch": {
-        "description": "",
+        "tags": [
+          "Toppings"
+        ],
+        "summary": "Update a Topping",
+        "description": "\r  <ul> Examples:\r   <li> URL/<b>toppingId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "sossis"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -243,7 +447,11 @@
     },
     "/pizzas/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Pizzas"
+        ],
+        "summary": "List Pizzas",
+        "description": "\r  You can send query with endpoint-browser for search[], sort[], page and limit\r  <ul>Examples:\r  <li> URL?<b>search[field1]=value1&search[field2]=value2</b> </li>\r  <li> URL?<b>sort[field1]=1&sort[field2]=-1</b> </li>\r  <li> URL?<b>page=2&limit=2</b> </li>\r  </ul>\r  ",
         "responses": {
           "200": {
             "description": "OK"
@@ -251,7 +459,41 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Pizzas"
+        ],
+        "summary": "Create a Pizza",
+        "description": "You can send parameters in body",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "mixed pizza"
+                },
+                "price": {
+                  "type": "number",
+                  "example": 10
+                },
+                "toppings": {
+                  "type": "array",
+                  "example": [
+                    "...toppingId-1...",
+                    "...toppingId-2..."
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -261,7 +503,11 @@
     },
     "/pizzas/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Pizzas"
+        ],
+        "summary": "Read a Pizza",
+        "description": "\r  A record containing \"pizzaID\" is called up.\r  <ul> Examples:\r  <li> URL/<b>pizzaId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
@@ -277,13 +523,45 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "Pizzas"
+        ],
+        "summary": "Update a Pizza",
+        "description": "\r  A record containing \"PizzaID\" is called up. Then, the update is made with the values ​​in the \"body\".\r  <ul> Examples:\r  <li> URL/<b>pizzaId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "sossis"
+                },
+                "price": {
+                  "type": "number",
+                  "example": 100
+                },
+                "toppings": {
+                  "type": "array",
+                  "example": [
+                    "...toppingId-1...",
+                    "...toppingId-2..."
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -293,7 +571,11 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Pizzas"
+        ],
+        "summary": "Delete a Pizza",
+        "description": "\r  <ul> Examples:\r  <li> URL/<b>pizzaId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
@@ -312,13 +594,45 @@
         }
       },
       "patch": {
-        "description": "",
+        "tags": [
+          "Pizzas"
+        ],
+        "summary": "Update a Pizza",
+        "description": "\r  A record containing \"PizzaID\" is called up. Then, the update is made with the values ​​in the \"body\".\r  <ul> Examples:\r  <li> URL/<b>pizzaId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "sossis"
+                },
+                "price": {
+                  "type": "number",
+                  "example": 100
+                },
+                "toppings": {
+                  "type": "array",
+                  "example": [
+                    "...toppingId-1...",
+                    "...toppingId-2..."
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -330,13 +644,31 @@
     },
     "/pizzas/{id}/pushToppings": {
       "put": {
-        "description": "",
+        "tags": [
+          "Pizzas"
+        ],
+        "summary": "Toppings Add",
+        "description": "\r  In order to add sauce by calling the pizza record named \"pizzaID\", \"toppingId\" must be entered in the \"req.body\" field. With Put Method.\r  <ul> Examples:\r  <li> URL/<b>pizzaId</b>/<b>pushToppings</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "toppings": {
+                  "type": "string",
+                  "example": "...toppingId..."
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -348,13 +680,31 @@
     },
     "/pizzas/{id}/pullToppings": {
       "put": {
-        "description": "",
+        "tags": [
+          "Pizzas"
+        ],
+        "summary": "Toppings Remove",
+        "description": "\r  In order to remove sauce by calling the pizza record named \"pizzaID\", \"toppingId\" must be entered in the \"req.body\" field. With Put Method.\r  <ul> Examples:\r  <li> URL/<b>pizzaId</b>/<b>pullToppings</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "toppings": {
+                  "type": "string",
+                  "example": "...toppingId..."
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -366,7 +716,11 @@
     },
     "/orders/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Orders"
+        ],
+        "summary": "List Orders",
+        "description": "\r  You can send query with endpoint-browser for search[], sort[], page and limit\r  <ul>Examples:\r  <li> URL?<b>search[field1]=value1&search[field2]=value2</b> </li>\r  <li> URL?<b>sort[field1]=1&sort[field2]=-1</b> </li>\r  <li> URL?<b>page=2&limit=2</b> </li>\r  </ul>\r  ",
         "responses": {
           "200": {
             "description": "OK"
@@ -374,25 +728,34 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Create a Order",
+        "description": "You can send parameters in body",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "quantity": {
-                  "example": "any"
+                "userId": {
+                  "type": "string",
+                  "example": "...userId..."
                 },
                 "pizzaId": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "...pizzaId..."
                 },
-                "price": {
-                  "example": "any"
+                "size": {
+                  "type": "string",
+                  "example": "Small"
                 },
-                "totalPrice": {
-                  "example": "any"
+                "quantitiy": {
+                  "type": "number",
+                  "example": 2
                 }
               }
             }
@@ -407,7 +770,11 @@
     },
     "/orders/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Read a Order",
+        "description": "\r  A record containing \"OrderID\" is called up.\r  <ul> Examples:\r  <li> URL/<b>orderId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
@@ -423,7 +790,11 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Update a Order",
+        "description": "\r  A record containing \"OrderID\" is called up. Then, the update is made with the values ​​in the \"body\".\r  <ul> Examples:\r  <li> URL/<b>orderId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
@@ -434,17 +805,25 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "quantity": {
-                  "example": "any"
+                "userId": {
+                  "type": "string",
+                  "example": "...userId..."
                 },
-                "price": {
-                  "example": "any"
+                "pizzaId": {
+                  "type": "string",
+                  "example": "...pizzaId..."
                 },
-                "totalPrice": {
-                  "example": "any"
+                "size": {
+                  "type": "string",
+                  "example": "Small"
+                },
+                "quantitiy": {
+                  "type": "number",
+                  "example": 2
                 }
               }
             }
@@ -457,7 +836,11 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Delete a Order",
+        "description": "\r  <ul> Examples:\r   <li> URL/<b>orderId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
@@ -476,7 +859,11 @@
         }
       },
       "patch": {
-        "description": "",
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Update a Order",
+        "description": "\r  A record containing \"OrderID\" is called up. Then, the update is made with the values ​​in the \"body\".\r  <ul> Examples:\r  <li> URL/<b>orderId</b></li>\r  </ul>\r  ",
         "parameters": [
           {
             "name": "id",
@@ -487,17 +874,25 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "quantity": {
-                  "example": "any"
+                "userId": {
+                  "type": "string",
+                  "example": "...userId..."
                 },
-                "price": {
-                  "example": "any"
+                "pizzaId": {
+                  "type": "string",
+                  "example": "...pizzaId..."
                 },
-                "totalPrice": {
-                  "example": "any"
+                "size": {
+                  "type": "string",
+                  "example": "Small"
+                },
+                "quantitiy": {
+                  "type": "number",
+                  "example": 2
                 }
               }
             }
@@ -511,12 +906,59 @@
       }
     }
   },
-  "securityDefinition": {
-    "JWT": {
-      "type": "apiKey",
-      "in": "header",
-      "name": "Authorization",
-      "decription": "Entry your AccessToken (JWT) for Login. Example; <b>Bearer <i>...accessToken...<i></b>"
+  "definitions": {
+    "auth/login": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "example": "String"
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "password": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "example": "String"
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        }
+      }
+    },
+    "auth/refresh": {
+      "type": "object",
+      "properties": {
+        "tokenRefresh": {
+          "type": "object",
+          "properties": {
+            "desription": {
+              "type": "string",
+              "example": "token: {refresh: ... }"
+            },
+            "type": {
+              "type": "string",
+              "example": "String"
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        }
+      }
     }
   },
   "security": [
