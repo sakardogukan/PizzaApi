@@ -7,6 +7,21 @@ const setToken = require('../helpers/setToken')
 
 module.exports = {
     login: async (req, res) => {
+        /*
+         #swagger.tags = ['Authentication']
+         #swagger.summary = 'Login'
+         #swagger.description = 'Login with username and password'
+         _swagger.deprecated = true
+         _swagger.ignore = true
+         #swagger.parameters['body'] = {
+             in: 'body',
+             required: true,
+             schema: {
+                 username: 'test1',
+                 password: '1234'
+             }
+         }
+     */
         const { username, password } = req.body
         if (username && password) {
             const user = await User.findOne({ username, password })
@@ -49,6 +64,20 @@ module.exports = {
         }
     },
     refresh: async (req, res) => {
+        /*
+            #swagger.tags = ['Authentication']
+            #swagger.summary = 'JWT: Refresh'
+            #swagger.description = 'Refresh accessToken with refreshToken'
+            #swagger.parameters['body'] = {
+                in:'body',
+                required: true,
+                schema: {
+                        "token": {
+                            "refresh": "...refreshToken..."
+                        }
+                }
+            }
+        */
         const refreshToken = req.body?.token?.refresh
         if (refreshToken) {
             jwt.verify(refreshToken, process.env.REFRESH_KEY, async function (err, userData) {
@@ -85,6 +114,11 @@ module.exports = {
         }
     },
     logout: async (req, res) => {
+        /*
+            #swagger.tags = ['Authentication']
+            #swagger.summary = 'JWT: Logout'
+            #swagger.description = 'No need any doing for logout. You must deleted Bearer Token from your browser.'
+        */
         res.send({
             error: false,
             message: 'No need any doing for logout. You must deleted Bearer Token from your browser.'
