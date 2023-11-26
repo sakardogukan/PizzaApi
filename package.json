@@ -12,7 +12,7 @@
   "keywords": [],
   "author": "DGKN",
   "email": "sakardogukan@gmail.com",
-  "license": "ISC",
+  "license": "BSD license",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
