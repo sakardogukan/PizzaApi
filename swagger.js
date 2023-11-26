@@ -22,7 +22,7 @@ const document = {
     basePath: '/',
     schemes: ['http', 'https',],
     //! JWT Settings:
-    securityDefinition: {
+    securityDefinitions: {
         JWT: {
             type: 'apiKey',
             in: 'header',
@@ -33,7 +33,7 @@ const document = {
     security: [{ 'JWT': true }],
 
     //! Swagger Model Area:
-    /*definition: {
+    definition: {
         'auth/login': {
             username: {
                 type: 'String',
@@ -52,7 +52,6 @@ const document = {
             }
         }
     }
-*/
 
 }
 
