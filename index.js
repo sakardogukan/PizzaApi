@@ -13,6 +13,10 @@ const PORT = process.env?.PORT || 8000
 
 //? asyncErrors to errorHandler:
 require('express-async-errors')
+
+//? Cors Confg:
+var cors = require('cors')
+app.use(cors())
 /* ------------------------------------------- */
 //! Configuration:
 //? Connect to DB:
@@ -35,8 +39,6 @@ app.use(require('./src/middlewares/logger'))
 
 //! Documentation:
 // Swagger:
-var cors = require('cors')
-app.use(cors())
 const swaggerUi = require('swagger-ui-express')
 const swaggerJson = require('./swagger.json')
 app.use('/docs/swagger', swaggerUi.serve, swaggerUi.setup(swaggerJson, { swaggerOptions: { persistAuthorization: true } }))
